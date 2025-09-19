@@ -1,13 +1,18 @@
-from flask import Flask
+from datetime import datetime
+from flask import Flask, render_template
+from flask_moment import Moment
+
 app = Flask(__name__)
+moment = Moment(app)
 
-@app.route('/')
+@app.route("/")
 def index():
-    return '<h1>Hello World!</h1>'
+    return render_template(
+        "index.html",
+        title="PRA2",
+        name="Dalia",                
+        timestamp=datetime.utcnow()  
+    )
 
-@app.route('/user/<name>')
-def user(name):
-    return f'<h1>Hello, {name}!</h1>'
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
