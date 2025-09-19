@@ -18,7 +18,26 @@
   </nav>
 
   <main class="container py-4">
-    {% block content %}{% endblock %}
+    {% block content %}
+  <main class="container py-4">
+
+    {# Example 4-7 style: render ALL flashed messages here #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category if category in ['success','danger','warning','info','primary','secondary','light','dark'] else 'warning' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {# Your page's content continues here #}
+    {% block page_content %}{% endblock %}
+  </main>
+{% endblock %}
+
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
