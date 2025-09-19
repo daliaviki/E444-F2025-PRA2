@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="mb-3">Sign Up</h1>
+
+  {# Flash banners (yellow for warning, green for success) #}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category in ['danger','warning'] and 'warning' or (category in ['success','info'] and category or 'secondary') }} my-2">
+          {{ msg }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {# Big heading if email is valid format but NOT a UofT address #}
+  {% if result and result.non_uoft %}
+    <div class="my-3">
+      <h2 class="display-6">Hello, {{ result.name }}!<br> Please use your UofT email.</h2>
+    </div>
+  {% endif %}
+
+  <form method="post" class="card p-3 shadow-sm">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.name.label(class="form-label") }}
+      {{ form.name(class="form-control", placeholder="John Doe") }}
+      {% if form.name.errors %}
+        <div class="text-danger small mt-1">{{ form.name.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control", placeholder="john.doe@mail.utoronto.ca") }}
+      {% if form.email.errors %}
+        <div class="text-danger small mt-1">{{ form.email.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+
+  {# Show the success-case details string when it's a UofT email #}
+  {% if result is string %}
+    <hr>
+    <p class="fs-5">{{ result }}</p>
+  {% endif %}
+{% endblock %}
