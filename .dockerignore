@@ -2,5 +2,13 @@ venv/
 .git
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.sqlite
 .DS_Store
 screenshots/
+.venv
+.gitignore
+.idea
+.vscode
+.DS_Store
